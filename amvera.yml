@@ -7,6 +7,6 @@ meta:
 build:
   requirementsPath: requirements.txt
 run:
-  scriptName: app.py
+  scriptName: streamlit run Streamlit/main.py
   persistenceMount: /data
-  containerPort: 80
+  containerPort: 8501
