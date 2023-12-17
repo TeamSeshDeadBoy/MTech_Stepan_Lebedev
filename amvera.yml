@@ -1,12 +1,10 @@
----
 meta:
-  environment: python
+  environment: docker
   toolchain:
-    name: pip
-    version: 3.8
+    name: docker
 build:
-  requirementsPath: requirements.txt
+  dockerfile: Dockerfile 
 run:
-  scriptName: streamlit run main.py
+  command: streamlit run main.py
   persistenceMount: /data
   containerPort: 8501
