@@ -119,6 +119,9 @@ def testShapiro(data1, data2, alpha=0.05):
     :param data1: первая выборка pd.DataFrame
     :param data2: вторая выборка pd.DataFrame
     """
+    st.markdown("### Гипотезы для теста Шапиро-Уилка:   \
+        \n+ $H_0$: Выборка распределена по нормальному закону.   \
+        \n+ $H_a$: Закон распределения выборки не является нормальным.")
     results_1 = stats.shapiro(data1)
     results_2 = stats.shapiro(data2)
     return _markdownPval("Результаты теста шапиро для выборок:", results_1.pvalue, results_2.pvalue, alpha)
@@ -137,7 +140,6 @@ def testMannWhitney(data1, data2, alpha=0.05):
     
 def testStudent(data1, data2, alpha=0.05):
     """
-    Функция проводит для двух выборок тесты Стьюдента и возвращает их p-значения
     :param data1: первая выборка pd.DataFrame
     :param data2: вторая выборка pd.DataFrame
     """
@@ -259,11 +261,11 @@ def main():
                 df_1, df_2 = splitData(df, selected_hypothesis, work_days, age)
             twoHistograms(df_1, df_2, [work_days, max_days], names)
             if (testShapiro(df_1, df_2, alpha) == False):
-                st.write("Оба распределения близки к нормальному, для проверки гипотезы можем использовать t-test Стьюдента")
+                st.write("Оба распределения близки к нормальному, для проверки гипотезы можем использовать t-test Стьюдента со сформулированными выше гипотезами")
                 test_result = testStudent(df_1, df_2, alpha)
                 renderConclusion(selected_hypothesis, "S", test_result, work_days, age)
             else:
-                st.write("Оба (или одно) распределения далеки от нормального, нет возможности использовать t-test, используем тест Манна-уитни")
+                st.write("Оба (или одно) распределения далеки от нормального, нет возможности использовать t-test, используем тест Манна-уитни со сформулированными выше гипотезами")
                 test_result = testMannWhitney(df_1, df_2, alpha)
                 renderConclusion(selected_hypothesis, "MW", test_result, work_days, age)
             
