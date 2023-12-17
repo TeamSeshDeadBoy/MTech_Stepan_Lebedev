@@ -259,15 +259,18 @@ def main():
             else:
                 names = [f"{age} и младше. Среднее", f"Старше {age} лет. Среднее"]
                 df_1, df_2 = splitData(df, selected_hypothesis, work_days, age)
-            twoHistograms(df_1, df_2, [work_days, max_days], names)
-            if (testShapiro(df_1, df_2, alpha) == False):
-                st.write("Оба распределения близки к нормальному, для проверки гипотезы можем использовать t-test Стьюдента со сформулированными выше гипотезами")
-                test_result = testStudent(df_1, df_2, alpha)
-                renderConclusion(selected_hypothesis, "S", test_result, work_days, age)
+            if (df_1.shape[0] > 3 and df_2.shape[0] > 3):
+                twoHistograms(df_1, df_2, [work_days, max_days], names)
+                if (testShapiro(df_1, df_2, alpha) == False):
+                    st.write("Оба распределения близки к нормальному, для проверки гипотезы можем использовать t-test Стьюдента со сформулированными выше гипотезами")
+                    test_result = testStudent(df_1, df_2, alpha)
+                    renderConclusion(selected_hypothesis, "S", test_result, work_days, age)
+                else:
+                    st.write("Оба (или одно) распределения далеки от нормального, нет возможности использовать t-test, используем тест Манна-уитни со сформулированными выше гипотезами")
+                    test_result = testMannWhitney(df_1, df_2, alpha)
+                    renderConclusion(selected_hypothesis, "MW", test_result, work_days, age)
             else:
-                st.write("Оба (или одно) распределения далеки от нормального, нет возможности использовать t-test, используем тест Манна-уитни со сформулированными выше гипотезами")
-                test_result = testMannWhitney(df_1, df_2, alpha)
-                renderConclusion(selected_hypothesis, "MW", test_result, work_days, age)
+                st.markdown("### Выбранные вами критерии создают слишком малые выборки для применения критериев. Пожалуйста, поменяйте гиперпараметры")
             
             
 main()
