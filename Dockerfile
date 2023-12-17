@@ -4,7 +4,7 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/go/dockerfile-reference/
 
-ARG PYTHON_VERSION=3.9
+ARG PYTHON_VERSION=3.9.18
 FROM python:${PYTHON_VERSION}-slim as base
 
 # Prevents Python from writing pyc files.
@@ -43,7 +43,7 @@ USER appuser
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 8000
+EXPOSE 8501
 
 # Run the application.
-CMD streamlit run ./Streamlit/main.py
+CMD streamlit run Streamlit/main.py
