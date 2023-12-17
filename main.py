@@ -95,10 +95,10 @@ def _markdownPval(text, pval1, pval2=0, alpha=0.05):
     """
     st.markdown(f"### {text}   \np-value: {pval1}   \np-value: {pval2}   \n$alpha$: {alpha}")
     if (pval1 >= alpha and pval2 >= alpha):
-        st.markdown("**P-значения больше или равны доверительному интервалу**")
+        st.markdown("**P-значения больше или равны доверительному интервалу**, не отрицаем нулевую гипотезу")
         return False
     else:
-        st.markdown("**Одно или оба P-значений меньше доверительного интервала**")
+        st.markdown("**Одно или оба P-значений меньше доверительного интервала**, принимаем альтернативную гипотезу")
         return True
 
 def _markdownSinglePval(text, pval1, alpha=0.05):
@@ -107,10 +107,10 @@ def _markdownSinglePval(text, pval1, alpha=0.05):
     """
     st.markdown(f"### {text}   \np-value: {pval1}   $alpha$: {alpha}")
     if (pval1 >= alpha):
-        st.markdown("**P-значение больше или равно доверительному интервалу**")
+        st.markdown("**P-значение больше или равно доверительному интервалу**, не отрицаем нулевую гипотезу")
         return False
     else:
-        st.markdown("**P-значение меньше доверительного интервала**")
+        st.markdown("**P-значение меньше доверительного интервала**, принимаем альтернативную гипотезу")
         return True
     
 def testShapiro(data1, data2, alpha=0.05):
