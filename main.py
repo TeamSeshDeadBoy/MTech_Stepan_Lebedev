@@ -8,6 +8,12 @@ import streamlit as st
 
 
 def calcMinMax(data, arr):
+    """
+    Функция, считающая минимальные и максимальные аргументы для выбранных колонок pd.DataFrame для слайдеров st.slider()
+    Максимальным мы считаем Max-1, так как при проверке гипотезы мы ставим границу '>'
+    :param data: данные pd.Dataframe
+    :param arr: cписок названий колонок
+    """
     minMaxes = []
     for i in arr:
         minMaxes.append(data[i].min())
@@ -15,6 +21,11 @@ def calcMinMax(data, arr):
     return minMaxes
 
 def hist(data, nbins=20):
+    """
+    Функция строит гистограмму с заданным кол-вом bin
+    :param data: данные pd.Dataframe
+    :param nbins: кол-во бинов int
+    """
     fig, ax = plt.subplots()
     ax.hist(data, bins=nbins)
     st.pyplot(fig)
@@ -39,6 +50,13 @@ def twoHistograms(x, y, arr, names=["Первая выборка", "Вторая
 
 
 def splitData(data, hypothesisNumber, work_days, age=0):
+    """
+    Функция, разделяющая данные на две подвыборки, в зависимости от критерия гипотезы и полученным переменным
+    :param data: выборка pd.DataFrame
+    :param hypothesisNumber: выборка pd.Series
+    :param work_days: 
+    :param age:
+    """
     work_days_split = data[data["Количество больничных дней"] > work_days]
     if (hypothesisNumber == "1 Гипотеза"):
         first_samples = work_days_split[work_days_split["Пол"] == "М"]["Количество больничных дней"]
@@ -65,7 +83,7 @@ def loadData(file):
 
 def _markdownPval(text, pval1, pval2=0, alpha=0.05):
     st.markdown(f"{text}   \np-value: {pval1}   \np-value: {pval2}")
-    if (pval1 + pval2 >= alpha*2):
+    if (pval1 >= alpha and pval2 >= alpha):
         return False
     else:
         return True
@@ -121,6 +139,6 @@ if not df.empty:
         if (testShapiro(df_1, df_2)):
             st.write("Оба распределения близки к нормальному, для проверки гипотезы можем использовать t-test Сть")
         else:
-            st.write("Оба распределения далеки от нормального, нет возможности использовать t-test, используем тест Манна-уитни")
+            st.write("Оба (или одно) распределения далеки от нормального, нет возможности использовать t-test, используем тест Манна-уитни")
             
             

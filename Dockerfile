@@ -46,4 +46,4 @@ COPY . .
 EXPOSE 8501
 
 # Run the application.
-CMD streamlit run Streamlit/main.py
+CMD streamlit run main.py
